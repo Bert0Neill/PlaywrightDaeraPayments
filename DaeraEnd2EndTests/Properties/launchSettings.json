@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "DaeraEnd2EndTests": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "Development": "DEV"
+      }
+    }
+  }
+}
