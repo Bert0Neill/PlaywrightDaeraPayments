@@ -1,13 +1,37 @@
+using DaeraEnd2EndTests.Base_Class;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Playwright;
+using Microsoft.Playwright.MSTest;
 using System.Text.RegularExpressions;
+
 
 namespace DaeraEnd2EndTests
 {
     [TestClass]
-    public class PaymentsScreens //: PageTest
+    public class PaymentsScreens : PageStartUp
     {
         private readonly IConfiguration _configuration;
+        //private Microsoft.Playwright.IPage page;
+
+        //[TestInitialize]
+        //public async Task PageSetup()
+        //{
+        //    using var playwright = await Playwright.CreateAsync();
+        //    await using var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
+        //    {
+        //        Headless = false,
+        //    });
+        //    var context = await browser.NewContextAsync();
+        //    page = await context.NewPageAsync();
+
+        //    //page = await Context!.NewPageAsync().ConfigureAwait(false);
+        //}
+
+        //[TestCleanup]
+        //public async void TestCleanup()
+        //{
+
+        //}
 
         public static IConfiguration InitConfiguration()
         {
@@ -20,67 +44,58 @@ namespace DaeraEnd2EndTests
             return config;
         }
 
-        //[TestMethod]
-        //public async Task ShouldOpenPlaywright()
-        //{
-        //    //Given I am on https://www.google.com
-        //    await Page.GotoAsync("https://www.google.com");
+        [TestMethod]
+        public async Task ShouldOpenPlaywright()
+        {
+            //Given I am on https://www.google.com
+            await page.GotoAsync("https://www.google.com");
 
-        //    //When I type dotnetcoretutorials.com into the search box
-        //    await Page.FillAsync("[title='Search']", "dotnetcoretutorials.com");
+            //When I type dotnetcoretutorials.com into the search box
+            await page.FillAsync("[title='Search']", "dotnetcoretutorials.com");
 
-        //    //And I press the button with the text "Google Search"
-        //    await Page.ClickAsync("[value='Google Search'] >> nth=1");
+            //And I press the button with the text "Google Search"
+            await page.ClickAsync("[value='Google Search'] >> nth=1");
 
-        //    //Then the first result is domain dotnetcoretutorials.com
-        //    var firstResult = await Page.Locator("//cite >> nth=0").InnerTextAsync();
-        //    Assert.AreEqual("https://dotnetcoretutorials.com", firstResult);
-        //}
+            //Then the first result is domain dotnetcoretutorials.com
+            var firstResult = await page.Locator("//cite >> nth=0").InnerTextAsync();
+            Assert.AreEqual("https://dotnetcoretutorials.com", firstResult);
+        }
 
 
-    //[TestMethod]
-    //    [Ignore]
-    //    public async Task PaymentSearchHomepageHasPlaywrightInTitleAndGetStartedLinkLinkingtoTheIntroPage()
-    //    {
-    //        var config = InitConfiguration();
-    //        var clientId = config["PaymentSettings:URL"];
+        [TestMethod]
+        public async Task PaymentSearchHomepageHasPlaywrightInTitleAndGetStartedLinkLinkingtoTheIntroPage()
+        {
+            var config = InitConfiguration();
+            var clientId = config["PaymentSettings:URL"];
 
-    //        await Page.GotoAsync("https://playwright.dev");
-    //        await Expect(Page.Locator("text=enables reliable end-to-end testing for modern web apps")).ToBeVisibleAsync();
+            await page.GotoAsync("https://playwright.dev");
+            await Assertions.Expect(page.Locator("text=enables reliable end-to-end testing for modern web apps")).ToBeVisibleAsync();
 
-    //    }
+        }
 
-        //[TestMethod]
-        //public async Task HomepageHasPlaywrightInTitleAndGetStartedLinkLinkingtoTheIntroPage()
-        //{
-        //    await Page.GotoAsync("https://playwright.dev");
-
-        //    // Expect a title "to contain" a substring.
-        //    await Expect(Page).ToHaveTitleAsync(new Regex("Playwright"));
-
-        //    // create a locator
-        //    var getStarted = Page.GetByRole(AriaRole.Link, new() { Name = "Get started" });
-
-        //    // Expect an attribute "to be strictly equal" to the value.
-        //    await Expect(getStarted).ToHaveAttributeAsync("href", "/docs/intro");
-
-        //    // Click the get started link.
-        //    await getStarted.ClickAsync();
-
-        //    // Expects the URL to contain intro.
-        //    await Expect(Page).ToHaveURLAsync(new Regex(".*intro"));
-        //}
+        [TestMethod]
+        public async Task HomepageHasPlaywrightInTitleAndGetStartedLinkLinkingtoTheIntroPage()
+        {
+            var path = Path.GetFullPath("index.html");
+            Assert.IsNotNull(page);
+            await page.GotoAsync("file://" + path);
+            var h1 = await page.TextContentAsync("h1");
+            Assert.AreEqual("Getting started.", h1);
+            var title = await page.EvaluateAsync("() => document.title");
+            Assert.AreEqual("This is a website.", title);
+            await Assertions.Expect(page.Locator("h1")).ToBeVisibleAsync();
+        }
 
         [TestMethod]    
         public async Task GoogleSearch()
         {
-            using var playwright = await Playwright.CreateAsync();
-            await using var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
-            {
-                Headless = false,
-            });
-            var context = await browser.NewContextAsync();
-            var page = await context.NewPageAsync();
+            //using var playwright = await Playwright.CreateAsync();
+            //await using var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
+            //{
+            //    Headless = false,
+            //});
+            //var context = await browser.NewContextAsync();
+            //var page = await context.NewPageAsync();
 
             await page.GotoAsync("https://www.google.com/");
 

@@ -10,13 +10,16 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DaeraEnd2EndTests.Base_Class
 {
     [TestClass]
-    public class PageTest : ContextTest
+    public class PageStartUp : ContextTest
     {
-        public IPage? Page { get; private set; }
+        public IPage? page { get; private set; }
+
         [TestInitialize]
         public async Task PageSetup()
         {
-            Page = await Context!.NewPageAsync().ConfigureAwait(false);
+            page = await Context!.NewPageAsync().ConfigureAwait(false);            
+
+            
         }
     }
 }
