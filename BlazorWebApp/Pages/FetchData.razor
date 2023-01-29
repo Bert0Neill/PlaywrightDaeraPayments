@@ -13,6 +13,10 @@
 }
 else
 {
+<div>
+    <textbox id="txtData" @bind:event="oninput"  @bind-Value="@this.Value" />
+</div>
+
     <table class="table">
         <thead>
             <tr>
@@ -38,6 +42,7 @@ else
 
 @code {
     private WeatherForecast[]? forecasts;
+    private string Value { get; set; } = "My Playwright...";
 
     protected override async Task OnInitializedAsync()
     {
