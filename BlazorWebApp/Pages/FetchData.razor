@@ -14,7 +14,7 @@
 else
 {
 <div>
-    <textbox id="txtData" @bind:event="oninput"  @bind-Value="@this.Value" />
+    <input id="txtData" @bind="@Value" />
 </div>
 
     <table class="table">
@@ -42,7 +42,7 @@ else
 
 @code {
     private WeatherForecast[]? forecasts;
-    private string Value { get; set; } = "My Playwright...";
+    private string? Value { get; set; } = "My Playwright...";
 
     protected override async Task OnInitializedAsync()
     {
