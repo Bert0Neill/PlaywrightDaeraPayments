@@ -3,7 +3,7 @@
     "DaeraEnd2EndTests": {
       "commandName": "Project",
       "environmentVariables": {
-        "Development": "DEV"
+        "ASPNETCORE_ENVIRONMENT": "DEV"
       }
     }
   }

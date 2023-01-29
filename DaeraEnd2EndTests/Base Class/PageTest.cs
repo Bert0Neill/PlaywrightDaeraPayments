@@ -9,17 +9,19 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DaeraEnd2EndTests.Base_Class
 {
+    /// <summary>
+    /// The ContextTest setting are overriden by the .runsettings file in your project
+    /// </summary>
     [TestClass]
-    public class PageStartUp : ContextTest
+    
+    public class PageTest : ContextTest
     {
-        public IPage? page { get; private set; }
+        public IPage? _Page { get; private set; }
 
         [TestInitialize]
         public async Task PageSetup()
         {
-            page = await Context!.NewPageAsync().ConfigureAwait(false);            
-
-            
+            _Page = await Context!.NewPageAsync().ConfigureAwait(false);
         }
     }
 }
