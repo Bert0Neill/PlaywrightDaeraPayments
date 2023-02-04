@@ -11,32 +11,21 @@
 
 <p>This component demonstrates Playwright testing.</p>
 
-@if (playwrightData == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-    <div>
-        <div>
-        <label>Min Range:</label> &nbsp;
-        @*@onchange="@(e => IsValidSubmit(e, null))*@
-        <input required type="number" id="txtMin" @bind="MinValue" placeholder="Min value" @oninput="ValueEnteredMin" />&nbsp;&nbsp;
-        </div>
-        <div>
-        <label>Max Range:</label> &nbsp;
-        <input required type="number" id="txtMax" @bind="MaxValue" placeholder="Max value" @oninput="ValueEnteredMax" /> &nbsp;&nbsp;
-        </div>
-        <button disabled=@IsTaskRunning class="btn btn-primary" @onclick="GetRandomData" @onclick:preventDefault="true">Retrieve Data</button>
-        
-    </div>
+<label>Min Range:</label> &nbsp;
+<input required type="number" id="txtMin" @bind="minValue" placeholder="Min value" @oninput="ValueEnteredMin" />&nbsp;&nbsp;
 
+<label>Max Range:</label> &nbsp;
+<input required type="number" id="txtMax" @bind="maxValue" placeholder="Max value" @oninput="ValueEnteredMax" /> &nbsp;&nbsp;
+
+<button disabled=@isTaskRunning class="btn btn-primary" @onclick="GetRandomData">Retrieve Data</button>
+
+@*don't display until there is data*@
+@if (playwrightData != null)
+{
     <table class="table">
         <thead>
             <tr>
+                <th>Row#</th>
                 <th>Date</th>
                 <th>Random Value</th>
                 <th>Summary</th>
@@ -46,63 +35,50 @@ else
             @foreach (var forecast in playwrightData)
             {
                 <tr>
+                    <td>@rowNumber</td>
                     <td>@forecast.Date.ToShortDateString()</td>
                     <td>@forecast.RandomValue</td>
                     <td>@forecast.Summary</td>
                 </tr>
+
+                rowNumber++; // next row number
             }
         </tbody>
     </table>
 }
 
 @code {
-    public int MinValue { get; set; }
-    public int MaxValue { get; set; }
-    bool IsTaskRunning = true;
+    private int rowNumber = 1;
+    private int minValue;
+    private int maxValue;
+    private bool isTaskRunning = false;
     private PlaywrightData[]? playwrightData;
     private HttpClient client;
 
+    protected override async Task OnInitializedAsync()
+    {
+        playwrightData = null;
+    }
+
     private void ValueEnteredMax(ChangeEventArgs args)
     {
-        // check digits
-        // check min is lass than max
-        // throw exception on boxes
-
-        bool isValidSubmit = ((MinValue > 0 && int.Parse(args.Value.ToString()) > 0)) && (MinValue < int.Parse(args.Value.ToString()));
-        IsTaskRunning = !isValidSubmit;
+        int? tmpValue = int.Parse(args.Value.ToString());
+        bool isValidSubmit = ((minValue > 0 && tmpValue > 0)) && (minValue < tmpValue);
+        isTaskRunning = !isValidSubmit;
     }
 
     private void ValueEnteredMin(ChangeEventArgs args)
     {
-        bool isValidSubmit = ((MaxValue > 0 && int.Parse(args.Value.ToString()) > 0)) && (MaxValue > int.Parse(args.Value.ToString()));
-        IsTaskRunning = !isValidSubmit;
-
+        int? tmpValue = int.Parse(args.Value.ToString());
+        bool isValidSubmit = ((maxValue > 0 && tmpValue > 0)) && (maxValue > tmpValue);
+        isTaskRunning = !isValidSubmit;
     }
 
-    protected override async Task OnInitializedAsync()
+    protected async Task GetRandomData()
     {
-        playwrightData = await Http.GetFromJsonAsync<PlaywrightData[]>("sample-data/weather.json");
-        //playwrightData = null;
-    }
-
-    //private void IsValidSubmit(ChangeEventArgs minElem, ChangeEventArgs maxElem)
-    //{
-    //    if (minElem is not null)
-    //        minValue = int.Parse(minElem.Value.ToString());
-    //    if (maxElem is not null)
-    //        maxValue = int.Parse(maxElem.Value.ToString());
-
-    //    IsTaskRunning = (minValue > 0 && maxValue > 0);
-    //    StateHasChanged();
-    //}
-
-  
-    protected async Task GetRandomData() {
-       playwrightData = await Http.GetFromJsonAsync<PlaywrightData[]>($"https://localhost:7112/Playwright?startRange={MinValue}&endRange={MaxValue}");
-
-        IsTaskRunning = false; //use this to enable the button after the button click function executed
-        
-
+        playwrightData = await Http.GetFromJsonAsync<PlaywrightData[]>($"https://localhost:7112/Playwright?startRange={minValue}&endRange={maxValue}");
+        minValue = maxValue = 0; // reset
+        isTaskRunning = true; //disable button
     }
 
     public class PlaywrightData
@@ -111,7 +87,5 @@ else
         public int RandomValue { get; set; }
         public string? Summary { get; set; }
     }
-
-    
 }
 
