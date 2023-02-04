@@ -2,6 +2,7 @@
 @using System.Net.Http
 @using System.Net.Http.Json
 @using System.Threading.Tasks
+@using System.ComponentModel.DataAnnotations;
 @inject HttpClient Http
 
 <PageTitle>Test Playwright</PageTitle>
@@ -16,12 +17,20 @@
 }
 else
 {
+    
+    <DataAnnotationsValidator />
+    <ValidationSummary />
     <div>
+        <div>
         <label>Min Range:</label> &nbsp;
-        <input type="text" id="txtMin" @bind="minValue" placeholder="Min value" />&nbsp;&nbsp;
+        @*@onchange="@(e => IsValidSubmit(e, null))*@
+        <input required type="number" id="txtMin" @bind="MinValue" placeholder="Min value" @oninput="ValueEnteredMin" />&nbsp;&nbsp;
+        </div>
+        <div>
         <label>Max Range:</label> &nbsp;
-        <input type="text" id="txtMax" @bind="maxValue" placeholder="Max value" /> &nbsp;&nbsp;
-        <button class="btn btn-primary" @onclick="GetRandomData">Retrieve Data</button>
+        <input required type="number" id="txtMax" @bind="MaxValue" placeholder="Max value" @oninput="ValueEnteredMax" /> &nbsp;&nbsp;
+        </div>
+        <button disabled=@IsTaskRunning class="btn btn-primary" @onclick="GetRandomData" @onclick:preventDefault="true">Retrieve Data</button>
         
     </div>
 
@@ -47,11 +56,28 @@ else
 }
 
 @code {
+    public int MinValue { get; set; }
+    public int MaxValue { get; set; }
+    bool IsTaskRunning = true;
     private PlaywrightData[]? playwrightData;
     private HttpClient client;
-    private int minValue { get; set; }
-    private int maxValue { get; set; }
-    //private string apiURL = "https://localhost:7112/Playwright?startRange={minValue}&endRange={maxValue}";
+
+    private void ValueEnteredMax(ChangeEventArgs args)
+    {
+        // check digits
+        // check min is lass than max
+        // throw exception on boxes
+
+        bool isValidSubmit = ((MinValue > 0 && int.Parse(args.Value.ToString()) > 0)) && (MinValue < int.Parse(args.Value.ToString()));
+        IsTaskRunning = !isValidSubmit;
+    }
+
+    private void ValueEnteredMin(ChangeEventArgs args)
+    {
+        bool isValidSubmit = ((MaxValue > 0 && int.Parse(args.Value.ToString()) > 0)) && (MaxValue > int.Parse(args.Value.ToString()));
+        IsTaskRunning = !isValidSubmit;
+
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -59,8 +85,24 @@ else
         //playwrightData = null;
     }
 
+    //private void IsValidSubmit(ChangeEventArgs minElem, ChangeEventArgs maxElem)
+    //{
+    //    if (minElem is not null)
+    //        minValue = int.Parse(minElem.Value.ToString());
+    //    if (maxElem is not null)
+    //        maxValue = int.Parse(maxElem.Value.ToString());
+
+    //    IsTaskRunning = (minValue > 0 && maxValue > 0);
+    //    StateHasChanged();
+    //}
+
+  
     protected async Task GetRandomData() {
-       playwrightData = await Http.GetFromJsonAsync<PlaywrightData[]>($"https://localhost:7112/Playwright?startRange={minValue}&endRange={maxValue}");
+       playwrightData = await Http.GetFromJsonAsync<PlaywrightData[]>($"https://localhost:7112/Playwright?startRange={MinValue}&endRange={MaxValue}");
+
+        IsTaskRunning = false; //use this to enable the button after the button click function executed
+        
+
     }
 
     public class PlaywrightData
@@ -69,5 +111,7 @@ else
         public int RandomValue { get; set; }
         public string? Summary { get; set; }
     }
+
+    
 }
-}
+
