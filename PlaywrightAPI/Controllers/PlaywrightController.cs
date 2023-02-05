@@ -18,7 +18,7 @@ namespace PlaywrightAPI.Controllers
                 _logger = logger;
             }
 
-            [HttpGet(Name = "GetRandomData")]
+            [HttpGet]
             public IEnumerable<PlaywrightData> Get(int startRange, int endRange)
             {
                 return Enumerable.Range(startRange, endRange).Select(index => new PlaywrightData
