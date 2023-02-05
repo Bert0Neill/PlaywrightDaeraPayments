@@ -11,13 +11,29 @@
 
 <p>This component demonstrates Playwright testing.</p>
 
-<label>Min Range:</label> &nbsp;
+<MudGrid Class="justify-space-between" Style="max-width: 800px;">
+    <MudItem xs="4">
+        <MudTextField Mask="@(new PatternMask("00"))" Label="Min Range" TextChanged="ValueEnteredMin"
+                      @bind-Value="minValue" Variant="@Variant.Text" Clearable />
+    </MudItem>
+    <MudItem xs="4">
+        <MudTextField Mask="@(new PatternMask("00"))" Label="Max Range" TextChanged="ValueEnteredMax"
+                      @bind-Value="maxValue" Variant="@Variant.Text" Clearable />
+    </MudItem>
+
+    <MudItem xs="4">
+    <MudButton @onclick="GetRandomData" disabled=@isTaskRunning Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Send" Color="Color.Primary">Retrieve Data</MudButton>
+    </MudItem>
+    
+</MudGrid>
+
+@*<label>Min Range:</label> &nbsp;
 <input required type="number" id="txtMin" @bind="minValue" placeholder="Min value" @oninput="ValueEnteredMin" />&nbsp;&nbsp;
 
 <label>Max Range:</label> &nbsp;
-<input required type="number" id="txtMax" @bind="maxValue" placeholder="Max value" @oninput="ValueEnteredMax" /> &nbsp;&nbsp;
+<input required type="number" id="txtMax" @bind="maxValue" placeholder="Max value" @oninput="ValueEnteredMax" /> &nbsp;&nbsp;*@
 
-<button disabled=@isTaskRunning class="btn btn-primary" @onclick="GetRandomData">Retrieve Data</button>
+@*<button disabled=@isTaskRunning class="btn btn-primary" @onclick="GetRandomData">Retrieve Data</button>*@
 
 @*don't display until there is data*@
 @if (playwrightData != null)
@@ -60,16 +76,21 @@
         playwrightData = null;
     }
 
-    private void ValueEnteredMax(ChangeEventArgs args)
+
+    private async Task ValueEnteredMax(string newValue)
     {
-        int? tmpValue = int.Parse(args.Value.ToString());
+        if (String.IsNullOrEmpty(newValue)) return;
+
+        int? tmpValue = int.Parse(newValue);
         bool isValidSubmit = ((minValue > 0 && tmpValue > 0)) && (minValue < tmpValue);
         isTaskRunning = !isValidSubmit;
     }
 
-    private void ValueEnteredMin(ChangeEventArgs args)
+    private async Task ValueEnteredMin(string newValue)
     {
-        int? tmpValue = int.Parse(args.Value.ToString());
+        if (String.IsNullOrEmpty(newValue)) return;
+
+        int? tmpValue = int.Parse(newValue);
         bool isValidSubmit = ((maxValue > 0 && tmpValue > 0)) && (maxValue > tmpValue);
         isTaskRunning = !isValidSubmit;
     }
