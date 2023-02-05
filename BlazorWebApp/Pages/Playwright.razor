@@ -4,6 +4,7 @@
 @using System.Threading.Tasks
 @using System.ComponentModel.DataAnnotations;
 @inject HttpClient Http
+@inject IHttpClientFactory ClientFactory
 
 <PageTitle>Test Playwright</PageTitle>
 
@@ -24,16 +25,7 @@
     <MudItem xs="4">
     <MudButton @onclick="GetRandomData" disabled=@isTaskRunning Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Send" Color="Color.Primary">Retrieve Data</MudButton>
     </MudItem>
-    
 </MudGrid>
-
-@*<label>Min Range:</label> &nbsp;
-<input required type="number" id="txtMin" @bind="minValue" placeholder="Min value" @oninput="ValueEnteredMin" />&nbsp;&nbsp;
-
-<label>Max Range:</label> &nbsp;
-<input required type="number" id="txtMax" @bind="maxValue" placeholder="Max value" @oninput="ValueEnteredMax" /> &nbsp;&nbsp;*@
-
-@*<button disabled=@isTaskRunning class="btn btn-primary" @onclick="GetRandomData">Retrieve Data</button>*@
 
 @*don't display until there is data*@
 @if (playwrightData != null)
@@ -68,12 +60,12 @@
     private int minValue;
     private int maxValue;
     private bool isTaskRunning = false;
-    private PlaywrightData[]? playwrightData;
+    private PlaywrightData[]? playwrightData = null;
     private HttpClient client;
 
     protected override async Task OnInitializedAsync()
     {
-        playwrightData = null;
+        client = ClientFactory.CreateClient("WebAPI");
     }
 
 
@@ -97,7 +89,7 @@
 
     protected async Task GetRandomData()
     {
-        playwrightData = await Http.GetFromJsonAsync<PlaywrightData[]>($"https://localhost:7112/Playwright?startRange={minValue}&endRange={maxValue}");
+        playwrightData = await client.GetFromJsonAsync<PlaywrightData[]>($"/Playwright?startRange={minValue}&endRange={maxValue}");
         minValue = maxValue = 0; // reset
         isTaskRunning = true; //disable button
     }
