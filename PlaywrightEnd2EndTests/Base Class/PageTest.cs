@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DaeraEnd2EndTests.Base_Class
+namespace PlaywrightEnd2EndTests.Base_Class
 {
     /// <summary>
     /// The ContextTest setting are overriden by the .runsettings file in your project

@@ -4,9 +4,9 @@ using Microsoft.Playwright;
 //using Microsoft.Playwright.MSTest;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
-using DaeraEnd2EndTests.Base_Class;
+using PlaywrightEnd2EndTests.Base_Class;
 
-namespace DaeraEnd2EndTests
+namespace PlaywrightEnd2EndTests
 {
     [TestClass]
     public class PaymentsScreens : PageTest

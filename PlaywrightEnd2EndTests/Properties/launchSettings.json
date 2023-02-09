@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "DaeraEnd2EndTests": {
+    "PlaywrightEnd2EndTests": {
       "commandName": "Project",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "DEV"

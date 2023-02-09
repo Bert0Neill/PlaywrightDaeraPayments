@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DaeraEnd2EndTests.Base_Class
+namespace PlaywrightEnd2EndTests.Base_Class
 {
     internal class GlobalTestsInitialise
     {

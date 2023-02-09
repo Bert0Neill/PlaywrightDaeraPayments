@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlaywrightEnd2EndTests", "DaeraEnd2EndTests\PlaywrightEnd2EndTests.csproj", "{877D4D7A-20AB-4F8F-B9E4-A95530D5CDBD}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorWebApp", "BlazorWebApp\BlazorWebApp.csproj", "{E8410A23-3690-47A0-BD98-E70A8BAB5296}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlaywrightAPI", "PlaywrightAPI\PlaywrightAPI.csproj", "{73A739C8-71FC-4A0D-85CB-ACCFB625C8D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlaywrightAPI", "PlaywrightAPI\PlaywrightAPI.csproj", "{73A739C8-71FC-4A0D-85CB-ACCFB625C8D2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlaywrightEnd2EndTests", "PlaywrightEnd2EndTests\PlaywrightEnd2EndTests.csproj", "{9B917F07-BA27-44F8-8021-116473F21C58}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{877D4D7A-20AB-4F8F-B9E4-A95530D5CDBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{877D4D7A-20AB-4F8F-B9E4-A95530D5CDBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{877D4D7A-20AB-4F8F-B9E4-A95530D5CDBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{877D4D7A-20AB-4F8F-B9E4-A95530D5CDBD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E8410A23-3690-47A0-BD98-E70A8BAB5296}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E8410A23-3690-47A0-BD98-E70A8BAB5296}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8410A23-3690-47A0-BD98-E70A8BAB5296}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -27,6 +23,10 @@ Global
 		{73A739C8-71FC-4A0D-85CB-ACCFB625C8D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73A739C8-71FC-4A0D-85CB-ACCFB625C8D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73A739C8-71FC-4A0D-85CB-ACCFB625C8D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B917F07-BA27-44F8-8021-116473F21C58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B917F07-BA27-44F8-8021-116473F21C58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B917F07-BA27-44F8-8021-116473F21C58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B917F07-BA27-44F8-8021-116473F21C58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
